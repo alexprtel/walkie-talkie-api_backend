@@ -1,6 +1,8 @@
-const API_BASE = '/api';
+const API_BASE = 'https://walkie-talkie-api-ceum.onrender.com/api';
 
 let token = localStorage.getItem('walkie_token');
+
+console.log('🔧 API_BASE:', API_BASE); //para ver a donde se esta conectando
 
 export function setToken(newToken) {
   token = newToken;
