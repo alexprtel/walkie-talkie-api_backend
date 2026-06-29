@@ -67,23 +67,22 @@ end
 
   #para google
   def google_login(conn, %{"email" => email, "name" => name, "google_id" => google_id}) do
-  # Buscar usuario por email o por google_id (puedes agregar un campo google_id en users)
+  # Buscar usuario o crearlo
   user = Accounts.get_user_by_email(email)
+
   if user do
-    # Si ya existe, actualizar google_id si no lo tiene (opcional)
     {:ok, token} = WalkieTalkie.Guardian.generate_token(user)
     WalkieTalkie.Presence.mark_online(user.id, user.name, user.email)
     json(conn, %{token: token, user: %{id: user.id, email: user.email, name: user.name}})
   else
-    # Crear usuario nuevo con contraseña aleatoria (no se usará)
     random_password = :crypto.strong_rand_bytes(16) |> Base.encode64()
     case Accounts.register_user(%{email: email, password: random_password, name: name}) do
       {:ok, user} ->
         {:ok, token} = WalkieTalkie.Guardian.generate_token(user)
         WalkieTalkie.Presence.mark_online(user.id, user.name, user.email)
         json(conn, %{token: token, user: %{id: user.id, email: user.email, name: user.name}})
-      {:error, _} ->
-        conn |> put_status(:unprocessable_entity) |> json(%{error: "Error creating user"})
+      {:error, changeset} ->
+        conn |> put_status(:unprocessable_entity) |> json(%{error: "Error al crear usuario"})
     end
   end
 end

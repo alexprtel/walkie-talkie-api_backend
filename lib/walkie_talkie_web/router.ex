@@ -25,10 +25,11 @@ defmodule WalkieTalkieWeb.Router do
   end
 
   scope "/api", WalkieTalkieWeb do
-    pipe_through :api
+    pipe_through [:api]
 
     post "/auth/register", AuthController, :register
     post "/auth/login", AuthController, :login
+    post "/auth/google", AuthController, :google_login
   end
 
   scope "/api", WalkieTalkieWeb do
@@ -59,7 +60,7 @@ defmodule WalkieTalkieWeb.Router do
     post "/audio-rooms/:room_id/leave", RoomController, :leave
 
     #para google
-    post "/auth/google", AuthController, :google_login
+    #post "/auth/google", AuthController, :google_login
 
     #para actulizar perfil
     put "/user/profile", UserController, :update_profile

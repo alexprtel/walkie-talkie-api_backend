@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, sendPasswordResetEmail } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDcM5uSxWRv_icBRyDxvJcZzv8WyIsCHB4",
@@ -15,10 +15,11 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
-export const signInWithGoogle = async () => {
-  const result = await signInWithPopup(auth, googleProvider);
-  return { email: result.user.email, name: result.user.displayName, id: result.user.uid };
-};
+// Cambiamos de signInWithPopup a signInWithRedirect
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
+
+// Función para obtener el resultado de la redirección
+export const getGoogleRedirectResult = () => getRedirectResult(auth);
 
 export const resetPassword = async (email) => {
   await sendPasswordResetEmail(auth, email);
