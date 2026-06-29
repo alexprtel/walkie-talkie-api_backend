@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>WalkieTalkie · Voz en tiempo real</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236c63ff'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 13c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z'/%3E%3C/svg%3E">
+</head>
+<body>
+  <div id="app" class="app-container">
+    <!-- Pantalla de autenticación -->
+    <div id="auth-view" class="view active">
+      <div class="card">
+        <div class="logo">🎙️ WalkieTalkie</div>
+        <div class="input-group">
+          <input type="email" id="email" placeholder="correo@ejemplo.com" autocomplete="email">
+          <input type="password" id="password" placeholder="Contraseña (mínimo 6)">
+        </div>
+        <div class="button-group">
+          <button id="login-btn" class="btn primary">Iniciar sesión</button>
+          <button id="register-btn" class="btn secondary">Registrarse</button>
+        </div>
+        <div id="auth-error" class="error-message"></div>
+      </div>
+    </div>
+
+    <!-- Pantalla de salas (después del login) -->
+    <div id="rooms-view" class="view">
+      <div class="header">
+        <h1>🎤 Salas de voz</h1>
+        <button id="logout-btn" class="btn small secondary">Cerrar sesión</button>
+      </div>
+      <div class="rooms-panel">
+        <div class="create-room">
+          <h3>Crear nueva sala</h3>
+          <input type="text" id="new-room-name" placeholder="Nombre de la sala">
+          <input type="text" id="new-room-password" placeholder="Contraseña (opcional)">
+          <button id="create-room-btn" class="btn primary">➕ Crear sala</button>
+        </div>
+        <div class="join-room">
+          <h3>Unirse a sala existente</h3>
+          <input type="text" id="join-room-id" placeholder="ID de sala">
+          <input type="text" id="join-password" placeholder="Contraseña">
+          <button id="join-room-btn" class="btn secondary">🔗 Unirse</button>
+        </div>
+        <div id="room-status" class="status-message"></div>
+      </div>
+    </div>
+
+    <!-- Pantalla de sala activa (walkie-talkie) -->
+    <div id="active-room-view" class="view">
+      <div class="header">
+        <h1>🔊 Sala <span id="active-room-name"></span></h1>
+        <button id="leave-room-btn" class="btn danger small">Salir</button>
+      </div>
+      <div class="room-content">
+        <!-- Participantes -->
+        <div class="participants-section">
+          <h3>👥 Conectados</h3>
+          <div id="participants-list" class="participants-grid"></div>
+        </div>
+
+        <!-- Botón push-to-talk -->
+        <div class="ptt-section">
+          <button id="ptt-button" class="ptt-btn">🎙️ Mantén presionado<br>para hablar</button>
+          <div id="recording-status" class="recording-status"></div>
+        </div>
+
+        <!-- Historial de mensajes -->
+        <div class="history-section">
+          <h3>📜 Mensajes de voz</h3>
+          <div id="history-list" class="history-list"></div>
+          <button id="clean-expired-btn" class="btn small secondary">🗑️ Limpiar segmentos viejos (24h)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
