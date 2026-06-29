@@ -47,6 +47,21 @@ defmodule WalkieTalkieWeb.Endpoint do
 
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
+#recien agregado para aceptar el tipo de cors
+  defp handle_options(conn, _opts) do
+  if conn.method == "OPTIONS" do
+    conn
+    |> put_resp_header("access-control-allow-origin", "*")
+    |> put_resp_header("access-control-allow-methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH")
+    |> put_resp_header("access-control-allow-headers", "content-type, authorization, accept")
+    |> send_resp(200, "")
+    |> halt()
+  else
+    conn
+  end
+end
+
+plug :handle_options
 
   plug Plug.Parsers,
 
@@ -60,11 +75,11 @@ defmodule WalkieTalkieWeb.Endpoint do
 
     # CORS manual para permitir peticiones desde cualquier frontend
   defp put_cors_headers(conn, _opts) do
-    conn
-    |> Plug.Conn.put_resp_header("access-control-allow-origin", "*")
-    |> Plug.Conn.put_resp_header("access-control-allow-methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH")
-    |> Plug.Conn.put_resp_header("access-control-allow-headers", "content-type, authorization, accept")
-  end
+  conn
+  |> Plug.Conn.put_resp_header("access-control-allow-origin", "*")
+  |> Plug.Conn.put_resp_header("access-control-allow-methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH")
+  |> Plug.Conn.put_resp_header("access-control-allow-headers", "content-type, authorization, accept")
+end
 
   plug :put_cors_headers
   plug WalkieTalkieWeb.Router
