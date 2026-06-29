@@ -66,6 +66,7 @@ echo "🔧 Ejecutando migraciones..."\n\
 echo "✅ Migraciones completadas. Iniciando servidor..."\n\
 /app/bin/server' > /app/entrypoint.sh && chmod +x /app/entrypoint.sh
 
+RUN chmod +x /app/bin/server
 USER nobody
 
 ENTRYPOINT ["/app/entrypoint.sh"]
